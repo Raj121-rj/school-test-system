@@ -1,0 +1,38 @@
+# Render Blueprint
+# Website: Render Free Web Service
+# Database: Neon PostgreSQL (external)
+# DATABASE_URL will be added manually in Render.
+
+services:
+  - type: web
+    name: school-test-system
+    runtime: node
+    plan: free
+    region: singapore
+
+    buildCommand: npm install --omit=dev && npm run check
+    startCommand: node server.js
+
+    healthCheckPath: /healthz
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: DATABASE_URL
+        sync: false
+
+      - key: JWT_SECRET
+        generateValue: true
+
+      - key: ADMIN_USERNAME
+        value: admin
+
+      - key: ADMIN_PASSWORD
+        sync: false
+
+      - key: SEED_DEMO
+        value: "true"
+
+      - key: SCHOOL_TZ
+        value: Asia/Kolkata
